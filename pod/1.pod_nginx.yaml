@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  namespace: dev
+  labels:
+    app: nginx
+spec:
+  hostNetwork: false
+  #可选值：Default|ClusterFirst|ClusterFirstWithHostNet|None
+  dnsPolicy: "Default"
+  #dns配置
+  dnsConfig:
+    nameservers:
+      - 8.8.8.8
+  #域名映射 ,在/etc/hosts文件下 追加 2 行   192.168.1.18  foo.local ....
+  hostAliases:
+    - ip: 192.168.1.18
+      hostnames:
+        - "foo.local"
+        - "bar.local"
+  containers:
+    # 可以有多个容器
+    - name: nginx
+      image: nginx
+      imagePullPolicy: IfNotPresent
+      ports:
+        - name: default
+          # 容器端口
+          containerPort: 80
+          #如果使用hostnetwork 那这里就不能指定端口
+          hostPort: 8080

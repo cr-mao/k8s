@@ -9,6 +9,9 @@ kubectl delete -f dev-ns.yaml
 kubectl apply -f dev-ns.yaml
 # 查看命名空间描述信息
 kubectl describe namespace dev
+
+
+kubectl delete namespace dev 
 ```
 
 

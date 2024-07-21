@@ -26,3 +26,9 @@ kubectl delete pod  xxxxx --force
 kubectl api-resources --namepsace=true
 kubectl api-resources --namepsace=false
 
+# 如何编写yaml,看有哪些属性 及 属性的类型
+kubectl  explain pod
+kubectl explain pod.metadata
+kubectl explain pod.spec
+ kubectl explain pod.spec.containers.imagePullPolicy
+

@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-gouzi
+  namespace: dev
+  labels:
+    app: nginx
+spec:
+  containers:
+    # 可以有多个容器
+    - name: nginx
+      image: nginx
+      imagePullPolicy: IfNotPresent
+      lifecycle:
+        postStart:
+          exec:
+            command: [ "/bin/sh","-c","echo 'hello world...' > /opt/demo.txt" ]
+        preStop:
+          exec:
+            command: [ "/usr/sbin/nginx","-s","quit" ]
