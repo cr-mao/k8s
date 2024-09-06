@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-statefulset-svc
+  name: minio-statefulset-svc
   namespace: test
 spec:
   # ClusterIP | LoadBalancer |
@@ -9,12 +9,16 @@ spec:
   # headless service
 #  clusterIP: None
   selector:
-    app: mysql-statefulset-tp
+    app: minio-statefulset-tp
   ports:
-    - name: http
-      port: 80
-      targetPort: 3306
-      nodePort: 30306
+    - name: web
+      port: 9001
+      targetPort: 9001
+      nodePort: 30901
+    - name: backend
+      port: 9000
+      targetPort: 9000
+      nodePort: 30900
 ---
 # 管理一组Pod
 # replicas 2
@@ -25,38 +29,45 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mysql-statefulset
+  name: minio-statefulset
   namespace: test
   labels:
-    app: mysql-statefulset
+    app: minio-statefulset
 spec:
   replicas: 1
-  serviceName: mysql-statefulset-svc
+  serviceName: minio-statefulset-svc
   selector:
     matchLabels:
-      app: mysql-statefulset-tp
+      app: minio-statefulset-tp
   template:
     metadata:
       labels:
-        app: mysql-statefulset-tp
+        app: minio-statefulset-tp
     spec:
       containers:
-        - name: mysql
-          image: mysql:8.0
+        - name: minio
+          image: bitnami/minio:2023
           imagePullPolicy: IfNotPresent
           env:
-            - name: MYSQL_ROOT_PASSWORD
-              value: "123456"
+            - name: MINIO_ROOT_USER
+              value: "admin"
+            - name: MINIO_ROOT_PASSWORD
+              value: "12345678"
+          command:
+            - /bin/bash
+            - -c
+          args:
+            - minio server /data --console-address :9001
           volumeMounts:
-            - name: database
-              mountPath: /var/lib/mysql
+            - name: data
+              mountPath: /data
   volumeClaimTemplates:
     - metadata:
-        name: database
+        name: data
       spec:
         resources:
           requests:
-            storage: 500Mi
+            storage: 2Gi
         accessModes:
           - ReadWriteOnce
-        storageClassName: nfs-client
+        storageClassName: nfs-storage
