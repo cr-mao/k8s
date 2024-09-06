@@ -30,5 +30,5 @@ kubectl api-resources --namepsace=false
 kubectl  explain pod
 kubectl explain pod.metadata
 kubectl explain pod.spec
- kubectl explain pod.spec.containers.imagePullPolicy
+kubectl explain pod.spec.containers.imagePullPolicy
 
