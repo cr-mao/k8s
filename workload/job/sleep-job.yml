@@ -1,0 +1,30 @@
+# kubectl apply -f sleep-job.yml
+# kubectl delete -f sleep-job.yml
+# kubectl get pod -w
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sleep-job
+
+spec:
+#  activeDeadlineSeconds: 15 指定了 Job 运行的最大时间（秒），如果 Job 未能在此时间内完成，则被终止。
+#  backoffLimit: 2 指定了 Job 失败后的重试次数上限。在达到重试次数上限后，Job 将被标记为失败。
+#  completions: 4 指定了 Job 需要完成的实例数量为 4。每个实例完成后，Job 的计数器会递增，直到达到指定数量为止。
+#  parallelism: 2 指定了 Job 每次并行处理的实例数量为 2。这会影响 Job 同时运行的实例数量。
+  activeDeadlineSeconds: 15
+  backoffLimit: 2
+  completions: 4
+  parallelism: 2
+
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - image: busybox
+        name: echo-job
+        imagePullPolicy: IfNotPresent
+        command:
+          - sh
+          - -c
+          - sleep $(($RANDOM % 10 + 1)) && echo done
