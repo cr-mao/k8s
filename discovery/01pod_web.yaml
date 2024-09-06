@@ -15,5 +15,5 @@ spec:
       ports:
         - name: port0
           containerPort: 80
-#          hostPort: 30080
+          hostPort: 30080
 

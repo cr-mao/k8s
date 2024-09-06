@@ -7,9 +7,10 @@
     - [Job、CronJob](workload/job/README.md)
     - [Deployment](workload/deployment/README.md)
     - [DaemonSet](workload/daemonset/readme.md)
+    - [StatefulSet](workload/statefulset/readme.md)
 - [ConfigMap、Secret](configmap_secret/README.md)
 - [存储卷](volume/README.md)
-- 服务发现
+- [服务发现](discovery/readme.md)
   
 
 ## links 
