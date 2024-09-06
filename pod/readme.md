@@ -1,5 +1,6 @@
 ## pod 
 
+主要是pod 的所有参数项，3个探针，初始化容器，以及钩子函数。
 
 ```shell
 kubectl get pod -n kube-system 
@@ -17,15 +18,14 @@ kubectl delete pod nginx -n dev
 kubectl delete namespace dev 
 
 
-kubectl apply -f 1.pod_nginx.yaml
+kubectl apply -f 01.pod_nginx.yaml
 kubectl describe pod nginx -n dev 
-kubectl delete -f 1.pod_nginx.yaml 
+kubectl delete -f 01.pod_nginx.yaml 
 
 # 进入pod 中的容器
 kubectl exec `pod_name`  -n dev -it -c `container_name` /bin/bash 
 
 ```
-
 
 pod 钩子函数 主要有 2 个 postStart 和preStop 。postStart 在容器创建之后执行，preStop则在容器销毁之前执行。 
 

@@ -19,6 +19,7 @@ spec:
          value: Awesome
      failureThreshold: 3
      periodSeconds: 3
+    # 就绪探针
     readinessProbe:
       httpGet:
         path: /started

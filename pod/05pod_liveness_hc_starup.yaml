@@ -10,6 +10,7 @@ spec:
   - name: liveness
     image: harbor.kubeimooc.com/library/liveness
     #每隔3s向容器探测，是否正常
+    # startupProbe 则专门用于容器启动期间的健康检查
     startupProbe:
      httpGet:
       path: /started
